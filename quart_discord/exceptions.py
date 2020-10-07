@@ -11,14 +11,19 @@ class RateLimited(HttpException):
     ----------
     message : str
         A message saying you are being rate limited.
+    json : dict
+        The actual JSON data received. Shorthand to ``await response.json()``.
+    headers : dict
+        The actual response headers received from the API.
     retry_after : int
         The number of milliseconds to wait before submitting another request.
     is_global : bool
         A value indicating if you are being globally rate limited or not
     """
 
-    def __init__(self, json):
+    def __init__(self, json, headers):
         self.json = json
+        self.headers = headers
         self.message = self.json["message"]
         self.is_global = self.json["global"]
         self.retry_after = self.json["retry_after"]
