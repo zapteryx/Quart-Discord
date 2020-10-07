@@ -172,6 +172,7 @@ class DiscordOAuth2Session(_http.DiscordOAuth2HttpClient):
             except KeyError:
                 pass
 
+    @property
     async def authorized(self):
         """A boolean indicating whether current session has authorization token or not."""
         async with await self._make_session() as discord_:

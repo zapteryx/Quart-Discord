@@ -22,7 +22,7 @@ HYPERLINK = '<a href="{}">{}</a>'
 
 @app.route("/")
 async def index():
-    if not await discord.authorized():
+    if not await discord.authorized:
         return f"""
         {HYPERLINK.format(url_for(".login"), "Login")} <br />
         {HYPERLINK.format(url_for(".login_with_data"), "Login with custom data")} <br />
