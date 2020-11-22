@@ -213,9 +213,14 @@ class DiscordOAuth2Session(_http.DiscordOAuth2HttpClient):
         return await models.UserConnection.fetch_from_api()
 
     @staticmethod
-    async def fetch_guilds() -> list:
+    async def fetch_guilds(use_cache=True) -> list:
         """This method returns list of guild objects from internal cache if it exists otherwise makes an API
         call to do so.
+
+        Parameters
+        ----------
+        use_cache : bool, optional
+            can be set to False to avoid using the cache.  
 
         Returns
         -------
@@ -223,11 +228,12 @@ class DiscordOAuth2Session(_http.DiscordOAuth2HttpClient):
             List of :py:class:`quart_discord.models.Guild` objects.
 
         """
-        user = models.User.get_from_cache()
-        try:
-            if user.guilds is not None:
-                return user.guilds
-        except AttributeError:
-            pass
+        if use_cache:
+            user = models.User.get_from_cache()
+            try:
+                if user.guilds is not None:
+                    return user.guilds
+            except AttributeError:
+                pass
 
         return await models.Guild.fetch_from_api()
