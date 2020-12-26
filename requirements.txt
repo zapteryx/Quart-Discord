@@ -1,5 +1,5 @@
 Quart
-pyjwt==1.7.1
+pyjwt
 aiohttp
 oauthlib
 discord.py
