@@ -55,7 +55,10 @@ class DiscordOAuth2Session(_http.DiscordOAuth2HttpClient):
 
     @staticmethod
     def __get_state():
-        return session.get("DISCORD_OAUTH2_STATE", str())
+        _state = session.get("DISCORD_OAUTH2_STATE", str())
+        if isinstance(_state, bytes):
+            _state = _state.decode()
+        return _state
 
     async def create_session(
             self, scope: list = None, *, data: dict = None, prompt: bool = True,
