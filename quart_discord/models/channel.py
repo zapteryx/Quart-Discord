@@ -65,3 +65,22 @@ class Channel(DiscordModelsBase):
 
     def __str__(self):
         return self.name
+    
+    @classmethod
+    async def fetch_from_api(cls):
+        """A class method which returns an instance or list of instances of this model by implicitly making an
+        API call to Discord.
+
+        Returns
+        -------
+        cls
+            An instance of this model itself.
+        [cls, ...]
+            List of instances of this model when many of these models exist.
+
+        """
+        request_method = cls._bot_request
+        payload = await request_method(cls.ROUTE)
+        if cls.MANY:
+            return [cls(_) for _ in payload]
+        return cls(payload)
